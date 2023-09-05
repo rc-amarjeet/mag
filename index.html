@@ -2,236 +2,120 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Animated Countdown</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Toast Notification</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
 
-    * {
-      box-sizing: border-box;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
+        body {
+            background-color: rebeccapurple;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
 
-    h4 {
-      font-size: 20px;
-      margin: 5px;
-      text-transform: uppercase;
-    }
+        .btn {
+            background-color: #ffffff;
+            color: rebeccapurple;
+            font-family: inherit;
+            font-weight: bold;
+            padding: 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
 
-    .counter {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
+        .btn:focus {
+            outline: none;
+        }
 
-    .counter.hide {
-      transform: translate(-50%, -50%) scale(0);
-      animation: hide 0.2s ease-out;
-    }
+        .btn:active {
+            transform: scale(0.98);
+        }
 
-    @keyframes hide {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-      }
+        #toasts {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-      100% {
-        transform: translate(-50%, -50%) scale(0);
-      }
-    }
+        .toast {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+        }
 
-    .final {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      text-align: center;
-    }
+        .toast.info {
+            color: rebeccapurple;
+        }
 
-    .final.show {
-      transform: translate(-50%, -50%) scale(1);
-      animation: show 0.2s ease-out;
-    }
+        .toast.success {
+            color: green;
+        }
 
-    @keyframes show {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-      }
-
-      30% {
-        transform: translate(-50%, -50%) scale(1.4);
-      }
-
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    .nums {
-      color: #3498db;
-      font-size: 50px;
-      position: relative;
-      overflow: hidden;
-      width: 250px;
-      height: 50px;
-    }
-
-    .nums span {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(120deg);
-      transform-origin: bottom center;
-    }
-
-    .nums span.in {
-      transform: translate(-50%, -50%) rotate(0deg);
-      animation: goIn 0.5s ease-in-out;
-    }
-
-    .nums span.out {
-      animation: goOut 0.5s ease-in-out;
-    }
-
-    @keyframes goIn {
-      0% {
-        transform: translate(-50%, -50%) rotate(120deg);
-      }
-
-      30% {
-        transform: translate(-50%, -50%) rotate(-20deg);
-      }
-
-      60% {
-        transform: translate(-50%, -50%) rotate(10deg);
-      }
-
-      100% {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-    }
-
-    @keyframes goOut {
-      0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-
-      60% {
-        transform: translate(-50%, -50%) rotate(20deg);
-      }
-
-      100% {
-        transform: translate(-50%, -50%) rotate(-120deg);
-      }
-    }
-
-    #replay {
-      background-color: #3498db;
-      border-radius: 3px;
-      border: none;
-      color: aliceblue;
-      padding: 5px;
-      text-align: center;
-      display: inline-block;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    #replay span {
-      cursor: pointer;
-      display: inline-block;
-      position: relative;
-      transition: 0.3s;
-    }
-
-    #replay span:after {
-      content: '\00bb';
-      position: absolute;
-      opacity: 0;
-      top: 0;
-      right: -20px;
-      transition: 0.5s;
-    }
-
-    #replay:hover span {
-      padding-right: 25px;
-    }
-
-    #replay:hover span:after {
-      opacity: 1;
-      right: 0;
-    }
-  </style>
+        .toast.error {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="counter">
-    <div class="nums">
-      <span class="in">3</span>
-      <span>2</span>
-      <span>1</span>
-      <span>0</span>
-    </div>
-    <h4>Get Ready</h4>
-  </div>
+    <div id="toasts"></div>
 
-  <div class="final">
-    <h1>GO</h1>
-    <button id="replay">
-      <span>Replay</span>
-    </button>
-  </div>
-  <script>
-    const nums = document.querySelectorAll('.nums span')
-    const counter = document.querySelector('.counter')
-    const finalMessage = document.querySelector('.final')
-    const replay = document.querySelector('#replay')
+    <button class="btn" id="button">Show Notification</button>
 
-    runAnimation()
+    <script>
+        const button = document.getElementById('button')
+        const toasts = document.getElementById('toasts')
 
-    function resetDOM() {
-      counter.classList.remove('hide')
-      finalMessage.classList.remove('show')
+        const messages = [
+            'Message One',
+            'Message Two',
+            'Message Three',
+            'Message Four',
+        ]
 
-      nums.forEach((num) => {
-        num.classList.value = ''
-      })
+        const types = ['info', 'success', 'error']
 
-      nums[0].classList.add('in')
-    }
+        button.addEventListener('click', () => createNotification())
 
-    function runAnimation() {
-      nums.forEach((num, idx) => {
-        const nextToLast = nums.length - 1
+        function createNotification(message = null, type = null) {
+            const notif = document.createElement('div')
+            notif.classList.add('toast')
+            notif.classList.add(type ? type : getRandomType())
 
-        num.addEventListener('animationend', (e) => {
-          if (e.animationName === 'goIn' && idx !== nextToLast) {
-            num.classList.remove('in')
-            num.classList.add('out')
-          } else if (e.animationName === 'goOut' && num.nextElementSibling) {
-            num.nextElementSibling.classList.add('in')
-          } else {
-            counter.classList.add('hide')
-            finalMessage.classList.add('show')
-          }
-        })
-      })
-    }
+            notif.innerText = message ? message : getRandomMessage()
 
-    replay.addEventListener('click', () => {
-      resetDOM()
-      runAnimation()
-    })
-  </script>
+            toasts.appendChild(notif)
+
+            setTimeout(() => {
+                notif.remove()
+            }, 3000)
+        }
+
+        function getRandomMessage() {
+            return messages[Math.floor(Math.random() * messages.length)]
+        }
+
+        function getRandomType() {
+            return types[Math.floor(Math.random() * types.length)]
+        } 
+    </script>
 </body>
 
 </html>
